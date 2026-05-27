@@ -1,0 +1,26 @@
+# .gitignore
+# Node.js dependencies
+node_modules/
+
+# Build directories
+/dist/
+/build/
+
+# Logs
+npm-debug.log*
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+
+# IDE/editor directories
+.vscode/
+.idea/
+
+# Optional: package lock files (if you want to commit)
+# package-lock.json
+# yarn.lock
