@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbound | Your Social Re-entry Companion</title>
+  <meta name="description" content="A private, beautiful, gamified companion to help you transition out of the home, conquer social anxiety, and build community in the real world.">
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- UNIVERSAL APP HEADER -->
+  <header class="glass-panel">
+    <div class="brand-section">
+      <div class="brand-logo">
+        <!-- SVG COMPASS/NAVIGATOR ICON -->
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-name">Outbound</h1>
+        <div class="brand-tagline">Real-world Exploration Log</div>
+      </div>
+    </div>
+
+    <!-- XP & LEVEL SYSTEM -->
+    <div class="xp-tracker">
+      <div class="level-badge" id="playerLevelDisplay">LV 1</div>
+      <div class="xp-bar-container">
+        <div class="xp-bar-labels">
+          <span>EXPERIENCE</span>
+          <span id="playerXPDisplay">0 / 100 XP</span>
+        </div>
+        <div class="xp-bar-outer">
+          <div class="xp-bar-inner" id="playerXPBar" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN NAVIGATION TABS -->
+  <main class="app-container">
+    <nav class="tabs-navigation" aria-label="Main Navigation">
+      <button class="tab-btn active" data-tab="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="9" rx="1"></rect>
+          <rect x="14" y="3" width="7" height="5" rx="1"></rect>
+          <rect x="14" y="12" width="7" height="9" rx="1"></rect>
+          <rect x="3" y="16" width="7" height="5" rx="1"></rect>
+        </svg>
+        Dashboard
+      </button>
+      <button class="tab-btn" data-tab="quests">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+          <path d="m9 12 2 2 4-4"></path>
+        </svg>
+        Quest Board
+      </button>
+      <button class="tab-btn" data-tab="comfort">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+        Comfort Map
+      </button>
+      <button class="tab-btn" data-tab="matcher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+        </svg>
+        Interest Finder
+      </button>
+      <button class="tab-btn" data-tab="journal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        Outing Journal
+      </button>
+    </nav>
+
+    <!-- ==================== DASHBOARD PANEL ==================== -->
+    <section id="dashboard" class="panel active" aria-label="Dashboard Overview">
+      <!-- INSPIRATION BOX -->
+      <div class="inspiration-banner">
+        <div class="inspiration-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"></path>
+          </svg>
+        </div>
+        <div class="inspiration-content">
+          <div class="inspiration-quote" id="inspirationQuote">"A journey of a thousand miles begins with a single step."</div>
+          <div class="inspiration-author" id="inspirationAuthor">Lao Tzu</div>
+        </div>
+      </div>
+
+      <!-- MAIN LAYOUT GRID -->
+      <div class="dashboard-grid">
+        <!-- LEFT COLUMN: MAIN INSIGHTS -->
+        <div class="flex-column" style="display:flex; flex-direction:column; gap:28px;">
+          <!-- STATS OVERVIEW -->
+          <div class="glass-panel main-dashboard-card">
+            <h3 class="card-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-violet)">
+                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+              </svg>
+              Adventure Status
+            </h3>
+            <div class="stats-strip" style="margin-top: 20px;">
+              <div class="glass-panel stat-item">
+                <span class="stat-val text-gradient" id="statsCompletedCount">0</span>
+                <span class="stat-lbl">Quests Done</span>
+              </div>
+              <div class="glass-panel stat-item">
+                <span class="stat-val text-gradient-cyan" id="statsStreakCount">0d</span>
+                <span class="stat-lbl">Active Streak</span>
+              </div>
+              <div class="glass-panel stat-item">
+                <span class="stat-val" style="color: var(--color-emerald);" id="statsXPAccumulated">0</span>
+                <span class="stat-lbl">Total XP Earned</span>
+              </div>
+            </div>
+
+            <!-- ENERGY LOG SLIDER -->
+            <div class="slider-container">
+              <div class="slider-labels">
+                <span>Rate your social energy level right now:</span>
+                <span id="energyValueText" class="text-gradient-cyan" style="font-weight:700;">5 / 10</span>
+              </div>
+              <input type="range" min="1" max="10" value="5" class="custom-range" id="energySlider">
+            </div>
+            <button class="glass-button active" id="logEnergyBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
+              Log Energy State
+            </button>
+          </div>
+
+          <!-- MINI ACTIVE QUESTS -->
+          <div class="glass-panel main-dashboard-card">
+            <div class="card-title-section">
+              <h3 class="card-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-cyan)">
+                  <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                  <path d="M12 6v6l4 2"></path>
+                </svg>
+                Active Challenges
+              </h3>
+              <button class="glass-button" id="goToQuestsTabBtn" style="font-size:12px; padding:6px 12px;">View Board</button>
+            </div>
+            <div id="miniQuestsList" style="display:flex; flex-direction:column; gap:12px;">
+              <!-- Javascript will inject 3 pending quests here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: QUICK TIMELINE -->
+        <div class="glass-panel main-dashboard-card" style="height: fit-content;">
+          <h3 class="card-title" style="margin-bottom: 20px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rose)">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            Recent Journeys
+          </h3>
+          <div id="miniJournaltimeline" class="journal-timeline" style="max-height: 400px;">
+            <!-- Render 3 recent completed journal items -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== QUEST BOARD PANEL ==================== -->
+    <section id="quests" class="panel" aria-label="Quest Log">
+      <div class="quest-board-header">
+        <div class="filter-pills">
+          <button class="filter-pill active" data-filter="all">All Quests</button>
+          <button class="filter-pill" data-filter="1">Grounding (Level 1)</button>
+          <button class="filter-pill" data-filter="2">Sparking (Level 2)</button>
+          <button class="filter-pill" data-filter="3">Outbound (Level 3)</button>
+        </div>
+        
+        <button class="glass-button active" id="openQuestModalBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Add Custom Quest
+        </button>
+      </div>
+
+      <!-- ACTIVE QUEST CONTAINER -->
+      <div class="quests-grid" id="questsGridContainer">
+        <!-- Populated via Javascript -->
+      </div>
+    </section>
+
+    <!-- ==================== COMFORT ZONE MAP PANEL ==================== -->
+    <section id="comfort" class="panel" aria-label="Comfort Zone Boundaries Map">
+      <div class="glass-panel main-dashboard-card">
+        <h3 class="card-title" style="margin-bottom: 8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-violet)">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            <path d="M2 12h20"></path>
+          </svg>
+          Your Comfort Zone Radar
+        </h3>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;">
+          Visualizing your social footprint. Completed tasks appear as glowing coordinates. Pushing into higher levels expands your circle of safe territory.
+        </p>
+
+        <div class="comfort-map-grid">
+          <!-- CANVA TARGET RADAR -->
+          <div class="radar-canvas-container glass-panel">
+            <canvas id="comfortCanvas" width="380" height="380"></canvas>
+          </div>
+
+          <!-- RADAR LEGEND -->
+          <div class="radar-legend glass-panel">
+            <h4 style="font-family:'Outfit'; font-size:15px; margin-bottom:8px;">Territory Levels</h4>
+            
+            <div class="legend-item tier-1">
+              <div class="legend-header">
+                <span>Grounding (Zone 1)</span>
+                <span id="zone1Percentage">0%</span>
+              </div>
+              <div class="legend-desc">Low-stakes outings. Sitting in coffee shops, visiting parks. Establishes outdoor presence.</div>
+            </div>
+
+            <div class="legend-item tier-2">
+              <div class="legend-header">
+                <span>Sparking (Zone 2)</span>
+                <span id="zone2Percentage">0%</span>
+              </div>
+              <div class="legend-desc">Micro-conversations. Chatting briefly with baristas, asking simple directions, sharing brief pleasantries.</div>
+            </div>
+
+            <div class="legend-item tier-3">
+              <div class="legend-header">
+                <span>Outbound (Zone 3)</span>
+                <span id="zone3Percentage">0%</span>
+              </div>
+              <div class="legend-desc">Engaged socializing. Participating in game meetups, classes, or regular groups. Joining community circles.</div>
+            </div>
+
+            <div class="stats-strip" style="margin-top: 10px;">
+              <div class="glass-panel stat-item" style="padding: 10px;">
+                <span class="stat-val text-gradient" style="font-size: 20px;" id="comfortZoneExpansionDisplay">10%</span>
+                <span class="stat-lbl" style="font-size:9px;">Radar Exp.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== INTEREST FINDER PANEL ==================== -->
+    <section id="matcher" class="panel" aria-label="Social Hobby Interest Finder">
+      <div class="glass-panel matcher-container">
+        <!-- QUIZ COMPASS STEP PROGRESS -->
+        <div class="step-indicator">
+          <div class="indicator-step active" id="quizStepIndicator1">1</div>
+          <div class="indicator-step" id="quizStepIndicator2">2</div>
+          <div class="indicator-step" id="quizStepIndicator3">3</div>
+          <div class="indicator-step" id="quizStepIndicator4">4</div>
+        </div>
+
+        <!-- STEP 1: PREFERED ENVIRONMENT -->
+        <div class="matcher-step active" id="quizStep1">
+          <h3 class="matcher-question">What environment sounds least intimidating to you right now?</h3>
+          <div class="options-grid">
+            <div class="option-card" data-step="1" data-val="observational">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              <div class="option-title">Observational Spaces</div>
+              <div class="option-desc">Libraries, museums, parks. You are surrounded by people but can stay comfortably anonymous.</div>
+            </div>
+            
+            <div class="option-card" data-step="1" data-val="structured">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                <path d="M12 8v4l3 3"></path>
+              </svg>
+              <div class="option-title">Structured Activity Spaces</div>
+              <div class="option-desc">Board game events, trivia nights, workshops. Activity dictates conversation so it's less scary.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: CORE HOBBIES -->
+        <div class="matcher-step" id="quizStep2">
+          <h3 class="matcher-question">Which core category sparks your curiosity the most?</h3>
+          <div class="options-grid">
+            <div class="option-card" data-step="2" data-val="creative">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M12 20h9"></path>
+                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+              </svg>
+              <div class="option-title">Creative & Artistic</div>
+              <div class="option-desc">Crafting, sketch sessions, art lessons, books, music appreciation.</div>
+            </div>
+            
+            <div class="option-card" data-step="2" data-val="analytical">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M4 4h16v16H4V4z"></path>
+                <path d="M9 9h6v6H9V9z"></path>
+              </svg>
+              <div class="option-title">Gaming & Technology</div>
+              <div class="option-desc">Board games, card strategies, programming clubs, retro video games, quiz leagues.</div>
+            </div>
+
+            <div class="option-card" data-step="2" data-val="nature">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M18 6 6 18M6 6l12 12"></path>
+              </svg>
+              <div class="option-title">Nature & Movement</div>
+              <div class="option-desc">Local hikes, running clubs, community gardens, park cleanups, cycling groups.</div>
+            </div>
+
+            <div class="option-card" data-step="2" data-val="humanitarian">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+              <div class="option-title">Helping Others</div>
+              <div class="option-desc">Animal rescue volunteering, food distribution networks, elderly care, book read-alouds.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: GROUP SIZE COMFORT -->
+        <div class="matcher-step" id="quizStep3">
+          <h3 class="matcher-question">What is your ideal social setting size?</h3>
+          <div class="options-grid">
+            <div class="option-card" data-step="3" data-val="intimate">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+              </svg>
+              <div class="option-title">One-on-One or Tiny Duos</div>
+              <div class="option-desc">Prefer quiet pairings. Conversing with single partners, small workshop duos.</div>
+            </div>
+            
+            <div class="option-card" data-step="3" data-val="group">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M17 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                <path d="M21 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M9 21v-2a4 4 0 0 0-4-4H3a4 4 0 0 0-4 4v2"></path>
+                <circle cx="6" cy="7" r="4"></circle>
+              </svg>
+              <div class="option-title">Small Structured Groups</div>
+              <div class="option-desc">Tables of 4-6 people playing a game, working in a garden, or discussing a book together.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: ACTION PLAN OUTPUT -->
+        <div class="matcher-step" id="quizStep4">
+          <h3 class="matcher-question text-gradient" style="margin-bottom:8px;">Your Action Blueprint</h3>
+          <p style="font-size: 13px; text-align: center; color: var(--text-secondary); margin-bottom: 24px;" id="matcherBlueprintSubtitle">
+            Based on your traits, we compiled local target venues and matched offline activities.
+          </p>
+
+          <div class="recommendations-container" id="quizRecommendationsContainer">
+            <!-- Populated via Javascript depending on traits selection -->
+          </div>
+
+          <div class="empty-state" id="quizRecommendationEmpty" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>Please select responses in earlier steps first.</p>
+          </div>
+        </div>
+
+        <!-- NAVIGATION ACTION BUTTONS -->
+        <div class="matcher-actions">
+          <button class="glass-button btn-secondary" id="quizPrevBtn" style="visibility: hidden;">Back</button>
+          <button class="glass-button active" id="quizNextBtn">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== OUTING JOURNAL TIMELINE ==================== -->
+    <section id="journal" class="panel" aria-label="Personal Outing History Log">
+      <div class="outing-timeline-section">
+        <!-- LEFT PANEL: LOG EXCURSION FORM -->
+        <div class="glass-panel main-dashboard-card" style="height: fit-content;">
+          <h3 class="card-title" style="margin-bottom: 20px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-emerald)">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+            Record an Outing
+          </h3>
+
+          <form id="outingForm" onsubmit="return false;">
+            <div class="form-group">
+              <label for="outingTitle" class="form-label">Where did you go? / What did you do?</label>
+              <input type="text" id="outingTitle" class="form-input" placeholder="e.g. Spent morning reading in Cafe Nero" required>
+            </div>
+
+            <div class="form-group">
+              <label for="outingDate" class="form-label">Date of Outing</label>
+              <input type="date" id="outingDate" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+              <label for="outingTier" class="form-label">Outing Level (Challenge Tier)</label>
+              <select id="outingTier" class="form-select" required>
+                <option value="1">Grounding (Level 1 - Low pressure / Solo)</option>
+                <option value="2">Sparking (Level 2 - Micro-interaction)</option>
+                <option value="3">Outbound (Level 3 - Active group engagement)</option>
+              </select>
+            </div>
+
+            <!-- EMOJI SELECTION FOR MOOD -->
+            <div class="form-group">
+              <label class="form-label">How did you feel overall?</label>
+              <div class="emoji-selector" id="journalEmojiGrid">
+                <button type="button" class="emoji-btn" data-emoji="😌" aria-label="Peaceful">😌</button>
+                <button type="button" class="emoji-btn" data-emoji="😊" aria-label="Happy">😊</button>
+                <button type="button" class="emoji-btn" data-emoji="⚡" aria-label="Energetic">⚡</button>
+                <button type="button" class="emoji-btn" data-emoji="😬" aria-label="Anxious">😬</button>
+                <button type="button" class="emoji-btn" data-emoji="😴" aria-label="Tired">😴</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="outingNotes" class="form-label">Reflections & Micro-Wins</label>
+              <textarea id="outingNotes" class="form-textarea" rows="3" placeholder="Write down at least one positive win! (e.g. 'The ambient noise was nice', 'Said thank you to the server', 'Felt anxious at first, but calmed down after 10 minutes')"></textarea>
+            </div>
+
+            <button type="submit" class="glass-button active" style="width: 100%; justify-content: center; margin-top: 10px;" id="saveJournalBtn">
+              Save to Journal (+25 XP)
+            </button>
+          </form>
+        </div>
+
+        <!-- RIGHT PANEL: FULL SCROLLING TIMELINE FEED -->
+        <div class="glass-panel main-dashboard-card">
+          <h3 class="card-title" style="margin-bottom: 20px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-indigo)">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            Reflections Feed
+          </h3>
+
+          <div class="journal-timeline" id="fullJournalTimeline">
+            <!-- Timeline entries generated in JS -->
+          </div>
+
+          <div class="empty-state" id="journalEmptyState" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>Your logbook is empty. Record your first outing to begin logging your progress!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==================== POPUPS AND MODALS ==================== -->
+  
+  <!-- MODAL: ADD CUSTOM QUEST -->
+  <div class="modal-overlay" id="questModalOverlay">
+    <div class="glass-panel modal-content">
+      <div class="modal-header">
+        <h3 class="card-title text-gradient">Add Custom Challenge</h3>
+        <button class="close-btn" id="closeQuestModalBtn" aria-label="Close dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <form id="customQuestForm" onsubmit="return false;">
+        <div class="form-group">
+          <label for="customQuestTitle" class="form-label">Challenge Title</label>
+          <input type="text" id="customQuestTitle" class="form-input" placeholder="e.g. Sit in the library reading room" required>
+        </div>
+
+        <div class="form-group">
+          <label for="customQuestDesc" class="form-label">Brief Description / Objective</label>
+          <textarea id="customQuestDesc" class="form-textarea" rows="2" placeholder="e.g. Stay for 20 minutes. Browse three aisles of books." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="customQuestTier" class="form-label">Challenge Level</label>
+          <select id="customQuestTier" class="form-select" required>
+            <option value="1">Grounding (Level 1 - No direct interaction)</option>
+            <option value="2">Sparking (Level 2 - Micro-interaction)</option>
+            <option value="3">Outbound (Level 3 - Active group engagement)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="customQuestXP" class="form-label">XP Award Value</label>
+          <select id="customQuestXP" class="form-select" required>
+            <option value="40">40 XP (Basic / Moderate effort)</option>
+            <option value="80">80 XP (High / Standard challenge)</option>
+            <option value="120">120 XP (Major stretch goal!)</option>
+          </select>
+        </div>
+
+        <button type="submit" class="glass-button active" style="width: 100%; justify-content: center; margin-top: 10px;" id="saveCustomQuestBtn">
+          Create Challenge
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING LEVEL UP BANNER -->
+  <div class="level-up-modal" id="levelUpModal">
+    <div class="level-up-badge-large">🌟</div>
+    <div>
+      <div class="level-up-title" id="levelUpModalTitle">LEVEL UP!</div>
+      <div class="level-up-subtitle">Your explored real-world footprint is expanding!</div>
+    </div>
+  </div>
+
+  <!-- APPLICATION LOGIC SOURCE -->
+  <script src="app.js"></script>
+</body>
+</html>
