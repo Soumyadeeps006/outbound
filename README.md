@@ -1,6 +1,6 @@
-# Project Title
+# Outbound
 
-A brief description of the project, its purpose, and key features.
+Outbound is a gamified social re‑entry companion that tracks real‑world quests, offers a comfort‑zone radar, interest quiz, and chime rewards using native Web Audio. Progress is saved locally with quest progression, journal, and a responsive UI.
 
 ## Features
 - Native Web Audio API synth chime (zero external dependencies)
